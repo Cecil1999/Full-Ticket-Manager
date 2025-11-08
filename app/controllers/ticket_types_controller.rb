@@ -16,7 +16,7 @@ class TicketTypesController < ApplicationController
   end
 
   def show
-    render json: { r: @ticket }
+    render json: { r: @type }
   end
 
   def update
@@ -24,15 +24,18 @@ class TicketTypesController < ApplicationController
   end
 
   def destroy
-    @ticket.enabled = "FALSE"
-    @ticket.save!
+    @type.enabled = "FALSE"
 
-    render json: { r: "Operation Successful." }
+    if @type.save
+      render json: { r: "Post Successfully Deleted" }
+    else
+      render json: { e: @type.errors }, status: 422
+    end
   end
 
   private
-  def set_ticket_type
-    @ticket = TicketType.find(params[:id])
+  def set_type_type
+    @type = TicketType.find(params[:id])
   end
 
   def ticket_type_params
