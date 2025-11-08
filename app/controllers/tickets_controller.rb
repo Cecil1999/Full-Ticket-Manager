@@ -8,14 +8,14 @@ class TicketsController < ApplicationController
     end
 
     def show
-      render json: @ticket
+      render json: @ticket, include: { posts: {}, ticket_type: { only: :name } }
     end
 
     def update
-        if @ticket.update
-            render json: { r => "Ticket Updated." }
+        if @ticket.update(ticket_params)
+            render json: { r: "Ticket Updated." }
         else
-            render json: { e => @ticket.errors }, status: :unprocessable_entity
+            render json: { e: @ticket.errors }, status: :unprocessable_entity
         end
     end
 
