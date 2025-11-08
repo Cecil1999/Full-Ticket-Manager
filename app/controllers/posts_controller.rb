@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     if @post.save
       render json: { r: "Post Successfully Created." }
     else
-      render json: { e: @post.errors }, status: 403
+      render json: { e: @post.errors }, status: 422
     end
   end
 
@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       render json: { r: "Post Successfully Updated. " }
     else
-      render json: { e: @post.errors }, status: 403
+      render json: { e: @post.errors }, status: 422
     end
   end
 
@@ -35,7 +35,7 @@ class PostsController < ApplicationController
     if @post.save
       render json: { r: "Post Successfully Deleted" }
     else
-      render json: { e: @post.errors }
+      render json: { e: @post.errors }, status: 422
     end
   end
 

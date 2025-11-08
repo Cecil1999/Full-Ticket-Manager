@@ -11,7 +11,7 @@ class TicketTypesController < ApplicationController
     if @type.save
       render json: { r: "Ticket Type Succesfully Created." }
     else
-      render json: { e: @type.errors }, status: 403
+      render json: { e: @type.errors }, status: 422
     end
   end
 

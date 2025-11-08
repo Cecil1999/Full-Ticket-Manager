@@ -9,5 +9,11 @@
 #   end
 
 [ 'title1', 'title2' ].each do |title|
-    Ticket.find_or_create_by!(title: title, body: 'Seed Data Destory')
+    Ticket.find_or_create_by!(title: title, body: 'Seed Data Destory', ticket_type_id: 2)
 end
+
+User.find_or_create_by!(
+  username: "Test",
+  email:    "test@example.com",
+  password_digest: "securepassword",
+)
