@@ -15,7 +15,7 @@ class TicketsController < ApplicationController
         if @ticket.update(ticket_params)
             render json: { r: "Ticket Updated." }
         else
-            render json: { e: @ticket.errors }, status: :unprocessable_entity
+            render json: { e: @ticket.errors }, status: 422
         end
     end
 
@@ -25,7 +25,7 @@ class TicketsController < ApplicationController
         if @ticket.save
             render json: { r: "Ticket Created" }
         else
-            render json: { e: @ticket.errors }, status: :unprocessable_entity
+            render json: { e: @ticket.errors }, status: 422
         end
     end
 
