@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       render json: { r: "Post Successfully Updated. " }
     else
-      render json: { e: @post.errors }, status: 403
+      render json: { e: @post.errors }, status: 422
     end
   end
 
