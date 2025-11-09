@@ -6,12 +6,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
+    render json: { r: @user }
+    # render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
   end
 
   def create
-    render json: { e: "Forbidden." }, status: 403
-=begin
+    # render json: { e: "Forbidden." }, status: 403
     @user = User.create(user_params)
 
     if @user.save
@@ -19,7 +19,6 @@ class UsersController < ApplicationController
     else
       render json: { e: @user.errors }, status: 403
     end
-=end
   end
 
   def update
@@ -49,6 +48,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.expect(user: [ :username, :email, :password_digest, :password_confirmation ])
+    params.expect(user: [ :username, :email, :password, :password_confirmation ])
   end
 end

@@ -23,6 +23,9 @@ gem "solid_cable"
 # CORS.
 gem "rack-cors"
 
+# JWT, for our login sessions.
+gem "jwt"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
