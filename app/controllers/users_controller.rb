@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include Authenticable
   before_action :set_user, only: %i[ show update destroy ]
 
   def index
@@ -6,12 +7,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: { r: @user }
-    # render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
+    # render json: { r: @user }
+    render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
   end
 
   def create
-    # render json: { e: "Forbidden." }, status: 403
+    render json: { e: "Forbidden." }, status: 403
+=begin
     @user = User.create(user_params)
 
     if @user.save
@@ -19,6 +21,7 @@ class UsersController < ApplicationController
     else
       render json: { e: @user.errors }, status: 403
     end
+=end
   end
 
   def update

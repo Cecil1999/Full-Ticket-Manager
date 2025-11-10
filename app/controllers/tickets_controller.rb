@@ -6,6 +6,7 @@ class TicketsController < ApplicationController
     before_action :ticket_type_hash, only: %i[ index show update create ]
 
     def index
+      puts @hmac_secret
       render json: { r: [ tickets: Ticket.all.order(created_at: :desc).limit(100), ticket_types: @ticket_type_hash ] }
     end
 

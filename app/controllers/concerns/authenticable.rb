@@ -5,10 +5,10 @@ module Authenticable extend ActiveSupport::Concern
 
   private
   def authenticate_user
-    @token = request.headers['Authorization'].split(" ").last
+    @token = request.headers["Authorization"].split(" ").last
     decoded_token = JsonWebToken.decode(@token)
     @current_user = User.find_by(id: decoded_token[:id])
     rescue JWT::VerificationError # No token or invalid token
-      render json: { error: "Unauthorized" }, status: :unauthorized
+      render json: { error: "Unauthorized" }, status: 422
   end
 end
