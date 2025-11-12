@@ -2,14 +2,19 @@ class AuthController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :handle_user_not_found
 
   def create
-    @user = User.find_by!(username: params[:username])
+    if request.headers["Authorization"]
+      return render json: { e: "Bad Request" }, status: 400
+      revoke_token
+    end
 
-    if !@user.enabled
+    user = User.find_by!(username: params[:username])
+
+    if !user.enabled
       render json: { e: "Contact Administrator." }, status: 403
     end
 
-    if @user&.authenticate(params[:password])
-      token = JsonWebToken.encode(id: @user.id)
+    if user&.authenticate(params[:password])
+      token = JsonWebToken.encode(id: user.id)
       render json: { r: "success", auth_token: token }
     else
       handle_bad_authentication
@@ -34,8 +39,8 @@ class AuthController < ApplicationController
   end
 
   def revoke_token
-    @token = request.headers["Authorization"].split(" ").last
-    decoded_token = JsonWebToken.decode(@token)
+    token = request.headers["Authorization"].split(" ").last
+    decoded_token = JsonWebToken.decode(token)
     BlacklistRedis.add(decoded_token)
   end
 end

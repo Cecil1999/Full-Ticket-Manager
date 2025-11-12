@@ -6,7 +6,6 @@ module BlacklistRedis
   end
 
   def self.check(token)
-    value = @redis.get("blacklist:jid:#{token["jid"]}")
-    raise Authenticable::BlackListedJWTTokenSpotted if value
+    raise Authenticable::BlackListedJWTTokenSpotted if @redis.get("blacklist:jid:#{token["jid"]}")
   end
 end
