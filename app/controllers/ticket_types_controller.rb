@@ -1,4 +1,5 @@
 class TicketTypesController < ApplicationController
+  include Authenticable
   before_action :set_ticket_type, only: %i[ show destroy ]
 
   def index

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include Authenticable
   before_action :set_user, only: %i[ show update destroy ]
 
   def index
@@ -6,6 +7,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    # render json: { r: @user }
     render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
   end
 
@@ -49,6 +51,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.expect(user: [ :username, :email, :password_digest, :password_confirmation ])
+    params.expect(user: [ :username, :email, :password, :password_confirmation ])
   end
 end

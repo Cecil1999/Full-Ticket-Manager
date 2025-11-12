@@ -1,4 +1,6 @@
 class TicketsController < ApplicationController
+    include Authenticable
+
     before_action :ticket_params, only: %i[ update create ]
     before_action :set_ticket, only: %i[ show update ]
     before_action :ticket_type_hash, only: %i[ index show update create ]
