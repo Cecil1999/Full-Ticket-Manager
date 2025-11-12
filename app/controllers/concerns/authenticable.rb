@@ -1,4 +1,6 @@
 module Authenticable extend ActiveSupport::Concern
+  class BlackListedJWTTokenSpotted < StandardError; end
+
   included do
     before_action :authenticate_user
   end
@@ -8,7 +10,5 @@ module Authenticable extend ActiveSupport::Concern
     @token = request.headers["Authorization"].split(" ").last
     decoded_token = JsonWebToken.decode(@token)
     @current_user = User.find_by(id: decoded_token[:id])
-    rescue JWT::VerificationError # No token or invalid token
-      render json: { error: "Unauthorized" }, status: 422
   end
 end

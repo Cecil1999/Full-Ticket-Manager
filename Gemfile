@@ -26,6 +26,9 @@ gem "rack-cors"
 # JWT, for our login sessions.
 gem "jwt"
 
+# Redis for our blacklist.
+gem "redis"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 

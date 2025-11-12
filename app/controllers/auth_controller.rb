@@ -5,8 +5,7 @@ class AuthController < ApplicationController
     @user = User.find_by!(username: params[:username])
 
     if !@user.enabled
-      # logger.fatal "#{user.username} is disabled"
-      render json: { e: "Contact Administrator." }, status: 404
+      render json: { e: "Contact Administrator." }, status: 403
     end
 
     if @user&.authenticate(params[:password])
@@ -18,6 +17,7 @@ class AuthController < ApplicationController
   end
 
   def destroy
+    revoke_token
   end
 
   private
@@ -30,8 +30,12 @@ class AuthController < ApplicationController
   end
 
   def handle_user_not_found
-    # logger.fatal "#{params[user.username]} recorded as NOT FOUND"
     render json: { e: "Username and/or password do not match our records." }, status: 404
   end
 
+  def revoke_token
+    @token = request.headers["Authorization"].split(" ").last
+    decoded_token = JsonWebToken.decode(@token)
+    BlacklistRedis.add(decoded_token)
+  end
 end
