@@ -14,5 +14,6 @@ module JsonWebToken
   def self.decode(token)
     decoded_token = JWT.decode(token, @hmac_secret, true, { algorithm: "HS256" }).first
     BlacklistRedis.check(decoded_token)
+    decoded_token
   end
 end
