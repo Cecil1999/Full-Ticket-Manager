@@ -1,5 +1,5 @@
 module BlacklistRedis
-  @redis = Redis.new(host: "127.0.0.1", port: 6379, db: 1)
+  @redis = Redis.new(host: "127.0.0.1", port: 6379)
 
   def self.add(token)
     @redis.setex("blacklist:jid:#{token["jid"]}", 24.hours.to_i, "logged_out")
