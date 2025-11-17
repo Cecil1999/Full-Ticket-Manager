@@ -25,18 +25,12 @@ class RolesController < ApplicationController
     @role.enabled = false
     @role.save!
 
-    # TODO once feature is added, need to get a list of 'features' that the role still has authorization to use.
-    # Honestly should probably do that with users too.
     render json: { r: "Role successfully deleted." }
   end
 
+  # PATCH/PUT /roles/:id, route is forbidden, if you need a new role. Just create a new one.
   def update
-    # TODO figure out if its 'Acceptable' to edit the name of a role. or if this route is even necessary.
-    if @role.update()
-      render json: { r: "Role updated" }
-    else
-      render json: { e: role.errors }, status: 422
-    end
+    render json: { e: "Forbidden" }, status: 403
   end
 
   private
