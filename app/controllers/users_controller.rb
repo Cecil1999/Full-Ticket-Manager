@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def show
     # render json: { r: @user }
-    render json: { r: @user.as_json(only: [ :id, :username, :email ]) }
+    render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { role: { only: :name } }) }
   end
 
   def create
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: { r: "User created." }
     else
-      render json: { e: @user.errors }, status: 403
+      render json: { e: @user.errors }, status: 422
     end
 =end
   end
@@ -51,6 +51,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.expect(user: [ :username, :email, :password, :password_confirmation ])
+    params.expect(user: [ :username, :email, :password, :password_confirmation, role_ids: [] ])
   end
 end

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   # User Routes.
   resources :users
 
+  # Role Routes. (Keep apart from users for now, users can update via their own route.)
+  resources :roles
+
   ## Session Management Routes.
   post "/auth/sign_in", to: "auth#create"
   delete "/auth/sign_out", to: "auth#destroy"
