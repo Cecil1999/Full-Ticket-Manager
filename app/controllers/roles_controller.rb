@@ -10,14 +10,14 @@ class RolesController < ApplicationController
   def show
     render json: { r: @role.as_json(only: [ :name, :enabled ]) }
   end
-  
+
   def create
     new_role = Role.new(role_params)
 
-    if new_role.save 
+    if new_role.save
       render json: { r: "Role successfully created." }
     else
-      render json: { e: new_role.errors }, status: 422 
+      render json: { e: new_role.errors }, status: 422
     end
   end
 
@@ -33,18 +33,18 @@ class RolesController < ApplicationController
   def update
     # TODO figure out if its 'Acceptable' to edit the name of a role. or if this route is even necessary.
     if @role.update()
-      render json: { r: "Role updated" } 
+      render json: { r: "Role updated" }
     else
       render json: { e: role.errors }, status: 422
     end
   end
 
-  private 
+  private
   def role_params
     params.expect(role: [ :name, :enabled ])
-  end 
+  end
 
-  def set_role 
+  def set_role
     @role = Role.find(params[:id])
   end
 end

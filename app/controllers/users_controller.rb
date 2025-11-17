@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    # render json: { e: "Forbidden." }, status: 403
+    render json: { e: "Forbidden." }, status: 403
 =begin
     @user = User.create(user_params)
 

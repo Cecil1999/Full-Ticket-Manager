@@ -10,7 +10,7 @@ class CreateRoles < ActiveRecord::Migration[8.1]
     end
 
     add_index :roles, :name, unique: true
-    add_foreign_key :user_roles, :users 
-    add_foreign_key :user_roles, :roles 
+    add_foreign_key :user_roles, :users
+    add_foreign_key :user_roles, :roles
   end
 end
