@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_16_023911) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_17_225910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "acls", force: :cascade do |t|
+    t.string "action", null: false
+    t.string "controller", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "acls_roles", id: false, force: :cascade do |t|
+    t.bigint "acl_id"
+    t.bigint "role_id"
+    t.index ["acl_id"], name: "index_acls_roles_on_acl_id"
+    t.index ["role_id"], name: "index_acls_roles_on_role_id"
+  end
 
   create_table "posts", force: :cascade do |t|
     t.text "body"
@@ -59,6 +73,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_16_023911) do
     t.string "username", null: false
   end
 
+  add_foreign_key "acls_roles", "acls"
+  add_foreign_key "acls_roles", "roles"
   add_foreign_key "posts", "tickets"
   add_foreign_key "roles_users", "roles"
   add_foreign_key "roles_users", "users"

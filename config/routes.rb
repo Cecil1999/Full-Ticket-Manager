@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   # Role Routes. (Keep apart from users for now, users can update via their own route.)
   resources :roles
 
+  # ACL Roles.
+
+  get "/acl/:ctrl(.:format)", to: "acls#show", as: "acl_controller"
+  get "/acl/:ctrl/:act(.:format)", to: "acls#show", as: "acl_action"
+
   ## Session Management Routes.
   post "/auth/sign_in", to: "auth#create"
   delete "/auth/sign_out", to: "auth#destroy"
