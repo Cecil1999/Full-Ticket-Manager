@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def show
     # render json: { r: @user }
-    render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { role: { only: :name } }) }
+    render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { roles: { only: :name } }) }
   end
 
   def create

@@ -9,6 +9,6 @@ module Authenticable extend ActiveSupport::Concern
   def authenticate_user
     token = request.headers["Authorization"].split(" ").last
     decoded_token = JsonWebToken.decode(token)
-    current_user = User.find_by(id: decoded_token[:id])
+    current_user = User.find_by(id: decoded_token["id"])
   end
 end

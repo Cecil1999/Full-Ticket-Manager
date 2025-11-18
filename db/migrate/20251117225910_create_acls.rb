@@ -13,6 +13,4 @@ class CreateAcls < ActiveRecord::Migration[8.1]
     end
 
     add_foreign_key :acls_roles, :acls
-    add_foreign_key :acls_roles, :roles
-  end
-end
+    add_foreign_key :acls_roles, :role

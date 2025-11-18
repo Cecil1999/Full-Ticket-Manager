@@ -17,6 +17,9 @@ Rails.application.routes.draw do
 
   get "/acl/:ctrl(.:format)", to: "acls#show", as: "acl_controller"
   get "/acl/:ctrl/:act(.:format)", to: "acls#show", as: "acl_action"
+  delete "/acl/:ctrl(.:format)", to: "acls#destroy"
+  delete "/acl/:ctrl/:act(.:format)", to: "acls#destroy"
+
 
   ## Session Management Routes.
   post "/auth/sign_in", to: "auth#create"
