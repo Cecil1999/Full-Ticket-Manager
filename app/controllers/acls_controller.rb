@@ -6,7 +6,7 @@ class AclsController < ApplicationController
 
   # GET /acl/:ctrl/(:act)?
   def show
-    render json: { r: @acl.as_json(include: { roles: { only: :name } } ) }
+    render json: { r: @acl.as_json(include: { roles: { only: :name } }) }
   end
 
   # DELETE /acl/:ctrl/(:act)?
