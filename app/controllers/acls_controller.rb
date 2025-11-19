@@ -1,5 +1,6 @@
 class AclsController < ApplicationController
   include Authenticable
+  include Authorizable
 
   before_action :acl_params
   before_action :get_acl

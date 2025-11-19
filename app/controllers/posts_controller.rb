@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   include Authenticable
+  include Authorizable
+
   before_action :set_ticket
 
   def index

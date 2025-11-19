@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   include Authenticable
+  include Authorizable
+
   before_action :set_user, only: %i[ show update destroy ]
 
   def index
