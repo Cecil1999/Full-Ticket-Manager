@@ -1,5 +1,6 @@
 class TicketsController < ApplicationController
     include Authenticable
+    include Authorizable
 
     before_action :ticket_params, only: %i[ update create ]
     before_action :set_ticket, only: %i[ show update ]
