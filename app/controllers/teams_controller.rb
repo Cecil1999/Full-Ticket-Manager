@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
   include Authenticable
+  include Authorizable
 
   before_action :set_team, only: %i[ show update destroy ]
 
