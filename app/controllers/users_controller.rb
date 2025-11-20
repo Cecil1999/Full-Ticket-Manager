@@ -9,21 +9,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    # render json: { r: @user }
-    render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { roles: { only: :name } }) }
+    render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { roles: { only: :name }, team: { only: :name } }) }
   end
 
   def create
     render json: { e: "Forbidden." }, status: 403
-=begin
-    @user = User.create(user_params)
-
-    if @user.save
-      render json: { r: "User created." }
-    else
-      render json: { e: @user.errors }, status: 422
-    end
-=end
   end
 
   def update
@@ -36,15 +26,6 @@ class UsersController < ApplicationController
 
   def destroy
     render json: { e: "Forbidden." }, status: 403
-=begin
-    @user.enabled = "FALSE"
-
-    if @user.save
-      render json: { r: "User deleted. " }
-    else
-      render json: { e: @user.errors }, status: 403
-    end
-=end
   end
 
   private
