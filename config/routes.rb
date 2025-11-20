@@ -10,11 +10,13 @@ Rails.application.routes.draw do
   # User Routes.
   resources :users
 
+  # Team Routes.
+  resources :teams, only: %i[ index show update destroy ]
+
   # Role Routes. (Keep apart from users for now, users can update via their own route.)
   resources :roles
 
-  # ACL Roles.
-
+  # ACL Routes.
   get "/acl/:ctrl(.:format)", to: "acls#show", as: "acl_controller"
   get "/acl/:ctrl/:act(.:format)", to: "acls#show", as: "acl_action"
   delete "/acl/:ctrl(.:format)", to: "acls#destroy"
