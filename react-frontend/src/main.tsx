@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import './App.css'
+import { App } from './App.tsx'
+import { Sidebar } from './Sidebar.tsx'
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')
+if (root)
+  root.classList.add("flex")
+
+createRoot(root!).render(
   <StrictMode>
+    <Sidebar />
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
