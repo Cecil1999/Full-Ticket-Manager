@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_20_003001) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_23_034632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -57,6 +57,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_20_003001) do
     t.index ["name"], name: "index_teams_on_name", unique: true
   end
 
+  create_table "ticket_templates", force: :cascade do |t|
+    t.text "template", null: false
+    t.bigint "ticket_type_id", null: false
+    t.index ["ticket_type_id"], name: "index_ticket_templates_on_ticket_type_id"
+  end
+
   create_table "ticket_types", force: :cascade do |t|
     t.boolean "enabled", default: true, null: false
     t.string "name"
@@ -87,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_20_003001) do
   add_foreign_key "posts", "tickets"
   add_foreign_key "roles_users", "roles"
   add_foreign_key "roles_users", "users"
+  add_foreign_key "ticket_templates", "ticket_types"
   add_foreign_key "tickets", "ticket_types"
   add_foreign_key "users", "teams"
 end
