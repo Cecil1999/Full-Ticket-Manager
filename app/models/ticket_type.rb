@@ -1,4 +1,4 @@
 class TicketType < ApplicationRecord
   has_many :tickets
-  has_many :ticket_templates
+  has_one :ticket_template
 end
