@@ -1,7 +1,7 @@
 import { NavItem } from './NavItem.tsx'
 
 const ticketNavs = [
-  { path: "/user/:user_id", name: "Profile" },
+  { path: "/user/", name: "Profile" },
   { path: "/tickets/", name: "Tickets" }
 ];
 
