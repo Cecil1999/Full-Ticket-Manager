@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate, Outlet } from "react-router";
 import { useState } from "react";
+import { Login } from './Login.tsx'
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  let [logged_in, is_logged_in] = useState(true)
+  let [logged_in, is_logged_in] = useState(false)
 
   // TODO: Cookie should ONLY have the jwt. Nothing else.
   // but figure out if theres anything that could be inserted by client or otherwise.
   if (document.cookie.includes("jwt=")) {
-
 
   }
 
@@ -37,7 +37,7 @@ export function App() {
       </Route>
 
       {/* Public Pages */}
-      <Route path="/login" element={<>Login Page</>} />
+      <Route path="/login" element={<Login />} />
       {/* Global all Fallback. */}
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
