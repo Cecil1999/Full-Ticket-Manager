@@ -12,7 +12,6 @@
   "dependencies": {
     "@foundernest/namecase": "^1.0.5",
     "@tailwindcss/vite": "^4.1.17",
-    "namecase": "^1.1.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.9.6",
