@@ -12,7 +12,7 @@ export function NavItem({ path, name, disabled }: NavItemProps) {
           {name}
         </button>
       </a>
-    </div >
+    </div>
   )
 }
 

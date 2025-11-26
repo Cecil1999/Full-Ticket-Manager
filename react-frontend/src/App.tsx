@@ -1,21 +1,26 @@
-import { Routes, Route, Navigate, Outlet } from "react-router";
-import { useState } from "react";
+import { Routes, Route, Navigate, useLocation, Outlet } from "react-router";
+import { useState, useEffect } from "react";
 import { Login } from './Login.tsx'
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  let [logged_in, is_logged_in] = useState(false)
+  let [loggedIn, isLoggedIn] = useState<boolean | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    isLoggedIn(document.cookie.includes('jwt='))
+  }, [])
+
+  if (loggedIn === null) {
+    return null;
+  }
 
   // TODO: Cookie should ONLY have the jwt. Nothing else.
   // but figure out if theres anything that could be inserted by client or otherwise.
-  if (document.cookie.includes("jwt=")) {
-
+  if (!loggedIn) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (!logged_in) {
-    return <Navigate to="/login" replace />
-  }
-
-  return children;
+  return <>{children}</>;
 }
 
 function Layout() {

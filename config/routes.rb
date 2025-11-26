@@ -24,8 +24,8 @@ Rails.application.routes.draw do
 
 
   ## Session Management Routes.
-  post "/auth/sign_in", to: "auth#create"
-  delete "/auth/sign_out", to: "auth#destroy"
+  post "api/auth/sign_in", to: "auth#create"
+  delete "api/auth/sign_out", to: "auth#destroy"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

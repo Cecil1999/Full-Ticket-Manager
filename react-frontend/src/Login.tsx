@@ -1,21 +1,63 @@
+import { useEffect, useRef } from 'react'
 import { SubmitButton } from './SubmitButton.tsx'
 import { TextInput } from './TextInput.tsx'
+import { useNavigate } from 'react-router'
 
 export function Login() {
-  const loginAction = (formData: FormData) => {
+  const navigate = useNavigate();
+  const preventAPIDoubleCall = useRef<boolean>(false)
 
+  useEffect(() => {
+    if (preventAPIDoubleCall.current) return;
+
+    // Jwt token should be the first and only cookie this site uses.
+    // if that changes... update accordingly.
+    const jwtToken: String = document.cookie.split(';')[0].substring(4);
+
+    if (!jwtToken) return;
+
+    preventAPIDoubleCall.current = true;
+    fetch('api/auth/sign_in', {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then(response => response.json())
+      .then((res) => {
+        //TODO: pop out alert when e happens.
+        if (res.e) console.log(res.e);
+        if (res.r) navigate('/home');
+      })
+  }, [])
+
+  const loginAction = (formData: FormData) => {
     const formValues = {
       username: formData.get('username'),
       password: formData.get('password'),
     }
 
-    fetch('web-api/auth/sign_in', {
+    fetch('api/auth/sign_in', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formValues),
-    }).then(response => console.log(response.json));
+    }).then(response => response.json())
+      .then((data) => {
+        if (data.e) {
+          console.log(data.e);
+          return;
+        }
+
+        if (data.auth_token) {
+          document.cookie = `jwt=${data.auth_token}`;
+          navigate('/home')
+        }
+        else
+          console.error(`returned ${data.r}, but no auth_token`);
+
+        return;
+      });
   }
 
   return (
