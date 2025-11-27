@@ -7,6 +7,7 @@ export function Login() {
   const navigate = useNavigate();
   const preventAPIDoubleCall = useRef<boolean>(false)
 
+  //TODO: Figure out if this could be a global call (probably could be).
   useEffect(() => {
     if (preventAPIDoubleCall.current) return;
 
@@ -17,7 +18,7 @@ export function Login() {
     if (!jwtToken) return;
 
     preventAPIDoubleCall.current = true;
-    fetch('api/auth/sign_in', {
+    fetch('api/v1/auth/sign_in', {
       method: "POST",
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -36,7 +37,7 @@ export function Login() {
       password: formData.get('password'),
     }
 
-    fetch('api/auth/sign_in', {
+    fetch('api/v1/auth/sign_in', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
