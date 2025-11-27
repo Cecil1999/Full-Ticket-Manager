@@ -1,7 +1,7 @@
 import { NavItem } from './NavItem.tsx'
 
 const ticketNavs = [
-  { path: "/user/:user_id", name: "Profile" },
+  { path: "/user/", name: "Profile" },
   { path: "/tickets/", name: "Tickets" }
 ];
 
@@ -11,7 +11,7 @@ export function Sidebar() {
       <span className="p-2 mb-4 text-4xl font-bold text-center">
         Logo
       </span>
-      {ticketNavs.map((o) => (<NavItem path={o.path} name={o.name} />))}
+      {ticketNavs.map((o, i) => (<NavItem key={i} path={o.path} name={o.name} />))}
     </div>
   )
 }

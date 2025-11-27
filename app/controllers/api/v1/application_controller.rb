@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class Api::V1::ApplicationController < ActionController::API
   rescue_from JWT::VerificationError, with: :forbidden
   rescue_from JWT::ExpiredSignature, with: :handle_expired_signature
   rescue_from Errno::ECONNRESET, with: :handle_connection_failure

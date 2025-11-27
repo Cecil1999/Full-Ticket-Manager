@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './App.css'
 import { App } from './App.tsx'
+import { BrowserRouter } from 'react-router'
 import { Sidebar } from './Sidebar.tsx'
 
 const root = document.getElementById('root')
@@ -11,6 +12,8 @@ if (root)
 createRoot(root!).render(
   <StrictMode>
     <Sidebar />
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>
 )

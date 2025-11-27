@@ -1,4 +1,4 @@
-class TeamsController < ApplicationController
+class Api::V1::TeamsController < Api::V1::ApplicationController
   include Authenticable
   include Authorizable
 

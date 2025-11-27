@@ -1,4 +1,4 @@
-class AclsController < ApplicationController
+class Api::V1::AclsController < Api::V1::ApplicationController
   include Authenticable
   include Authorizable
 

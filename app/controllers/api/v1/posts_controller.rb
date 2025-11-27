@@ -1,4 +1,4 @@
-class PostsController < ApplicationController
+class Api::V1::PostsController < Api::V1::ApplicationController
   include Authenticable
   include Authorizable
 

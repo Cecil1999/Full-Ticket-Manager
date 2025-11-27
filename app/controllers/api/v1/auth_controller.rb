@@ -1,10 +1,9 @@
-class AuthController < ApplicationController
+class Api::V1::AuthController < Api::V1::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :handle_user_not_found
 
   def create
     if request.headers["Authorization"]
-      return render json: { e: "Bad Request" }, status: 400
-      revoke_token
+      render json: { r: check_token? } and return
     end
 
     user = User.find_by!(username: params[:username])
@@ -42,5 +41,11 @@ class AuthController < ApplicationController
     token = request.headers["Authorization"].split(" ").last
     decoded_token = JsonWebToken.decode(token)
     BlacklistRedis.add(decoded_token)
+  end
+
+  def check_token?
+    token = request.headers["Authorization"].split(" ").last
+    decoded_token = JsonWebToken.decode(token)
+    !!decoded_token
   end
 end

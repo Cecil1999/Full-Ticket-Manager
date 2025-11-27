@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Api::V1::UsersController < Api::V1::ApplicationController
   include Authenticable
   include Authorizable
 
