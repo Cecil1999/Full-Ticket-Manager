@@ -1,4 +1,4 @@
-class TicketTypesController < ApplicationController
+class Api::V1::TicketTypesController < Api::V1::ApplicationController
   include Authenticable
   before_action :set_ticket_type, only: %i[ show destroy update ]
 

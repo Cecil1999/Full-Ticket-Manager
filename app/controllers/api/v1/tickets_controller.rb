@@ -1,4 +1,4 @@
-class TicketsController < ApplicationController
+class Api::V1::TicketsController < Api::V1::ApplicationController
     include Authenticable
     include Authorizable
 

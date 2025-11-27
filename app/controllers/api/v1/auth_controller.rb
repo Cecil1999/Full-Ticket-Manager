@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class Api::V1::AuthController < Api::V1::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :handle_user_not_found
 
   def create

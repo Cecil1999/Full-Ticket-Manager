@@ -1,4 +1,4 @@
-class RolesController < ApplicationController
+class Api::V1::RolesController < Api::V1::ApplicationController
   include Authenticable
   include Authorizable
 
