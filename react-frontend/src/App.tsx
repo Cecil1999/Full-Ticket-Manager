@@ -1,32 +1,18 @@
-import { Routes, Route, Navigate, useLocation, Outlet } from "react-router";
-import { useState, useEffect } from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router";
 import { Login } from './Login.tsx'
-
-function RequireAuth({ children }: { children: React.ReactNode }) {
-  let [loggedIn, isLoggedIn] = useState<boolean | null>(null);
-  const location = useLocation();
-
-  useEffect(() => {
-    isLoggedIn(document.cookie.includes('jwt='))
-  }, [])
-
-  if (loggedIn === null) {
-    return null;
-  }
-
-  // TODO: Cookie should ONLY have the jwt. Nothing else.
-  // but figure out if theres anything that could be inserted by client or otherwise.
-  if (!loggedIn) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return <>{children}</>;
-}
+import { Home } from "./Home.tsx";
+import { NotificationBar } from "./NotificationBar.tsx";
+import { PageBar } from "./PageBar.tsx";
+import { RequireAuth } from "./RequireAuth.tsx";
 
 function Layout() {
   return (
-    <div className="main">
-      <Outlet />
+    <div className="col-start-2 col-span-full">
+      <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-1 h-screen w-full">
+        <PageBar />
+        <Outlet />
+        <NotificationBar />
+      </div>
     </div>
   );
 }
@@ -36,7 +22,7 @@ export function App() {
     <Routes>
       {/* Routes behind a Auth check. */}
       <Route element={<RequireAuth><Layout /></RequireAuth>}>
-        <Route path="/home" element={<>Hello World</>} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<>Dashboard</>} />
 
       </Route>
