@@ -9,7 +9,7 @@ const root = document.getElementById('root')
 
 createRoot(root!).render(
   <StrictMode>
-    <div className="grid xl:grid-cols-[16rem_auto]">
+    <div className="grid xl:grid-cols-[16rem_auto] grid-rows-[4rem_auto] h-screen">
       <Sidebar />
       <BrowserRouter>
         <App />

@@ -62,7 +62,7 @@ export function Login() {
   }
 
   return (
-    <div className="flex-1 w-full h-full my-auto">
+    <div className="my-auto row-start-2">
       <div className="w-128 h-fit mx-auto border border-1 rounded-xl">
         <h1 className="text-3xl text-center p-1">Login</h1>
         <div className="flex flex-col p-4">

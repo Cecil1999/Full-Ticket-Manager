@@ -21,7 +21,8 @@ const smallMenuExpand: React.MouseEventHandler<HTMLButtonElement> = () => {
 
 export function Sidebar() {
   return <>
-    <div className="flex flex-col xl:hidden">
+    {/* Small Menu */}
+    <div className="flex flex-col xl:hidden h-max">
       <div className="p-1 w-full h-max">
         <button onClick={smallMenuExpand} aria-label="Open Hamburger Navigation Menu">
           <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32" viewBox="0 0 50 50">
@@ -33,7 +34,8 @@ export function Sidebar() {
         {mobileTicketNavs.map((o, i) => (<NavItem key={i} path={o.path} name={o.name} />))}
       </div>
     </div>
-    <div className="flex flex-col border-r-2 p-4 hidden xl:block h-16 xl:h-full text-center">
+    {/* Big Menu */}
+    <div className="flex flex-col border-r-2 p-4 hidden xl:block h-16 xl:h-full text-center row-span-full">
       <span className="p-2 mb-4 text-4xl font-bold">
         Logo
       </span>
