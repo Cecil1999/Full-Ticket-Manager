@@ -1,33 +1,16 @@
-import { Routes, Route, Navigate, useLocation, Outlet } from "react-router";
-import { useState, useEffect } from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router";
 import { Login } from './Login.tsx'
 import { Home } from "./Home.tsx";
-
-function RequireAuth({ children }: { children: React.ReactNode }) {
-  let [loggedIn, isLoggedIn] = useState<boolean | null>(null);
-  const location = useLocation();
-
-  useEffect(() => {
-    isLoggedIn(document.cookie.includes('jwt='))
-  }, [])
-
-  if (loggedIn === null) {
-    return null;
-  }
-
-  // TODO: Cookie should ONLY have the jwt. Nothing else.
-  // but figure out if theres anything that could be inserted by client or otherwise.
-  if (!loggedIn) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return <>{children}</>;
-}
+import { NotificationBar } from "./NotificationBar.tsx";
+import { PageBar } from "./PageBarProps.tsx";
+import { RequireAuth } from "./RequireAuth.tsx";
 
 function Layout() {
   return (
-    <div className="flex-1">
+    <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-1 h-screen w-full">
+      <PageBar />
       <Outlet />
+      <NotificationBar />
     </div>
   );
 }
