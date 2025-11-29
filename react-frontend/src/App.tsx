@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation, Outlet } from "react-router";
 import { useState, useEffect } from "react";
 import { Login } from './Login.tsx'
+import { Home } from "./Home.tsx";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   let [loggedIn, isLoggedIn] = useState<boolean | null>(null);
@@ -25,7 +26,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 
 function Layout() {
   return (
-    <div className="main">
+    <div className="flex-1">
       <Outlet />
     </div>
   );
@@ -36,7 +37,7 @@ export function App() {
     <Routes>
       {/* Routes behind a Auth check. */}
       <Route element={<RequireAuth><Layout /></RequireAuth>}>
-        <Route path="/home" element={<>Hello World</>} />
+        <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<>Dashboard</>} />
 
       </Route>

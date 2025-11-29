@@ -7,7 +7,7 @@ const ticketNavs = [
 
 export function Sidebar() {
   return (
-    <div className="h-screen md:w-64 sm:w-16 flex flex-col border-r-2 p-4">
+    <div className="flex-none h-screen md:w-64 sm:w-16 flex flex-col border-r-2 p-4">
       <span className="p-2 mb-4 text-4xl font-bold text-center">
         Logo
       </span>
