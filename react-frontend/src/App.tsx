@@ -7,10 +7,12 @@ import { RequireAuth } from "./RequireAuth.tsx";
 
 function Layout() {
   return (
-    <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-1 h-screen w-full">
-      <PageBar />
-      <Outlet />
-      <NotificationBar />
+    <div className="col-start-2 col-span-full">
+      <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-1 h-screen w-full">
+        <PageBar />
+        <Outlet />
+        <NotificationBar />
+      </div>
     </div>
   );
 }

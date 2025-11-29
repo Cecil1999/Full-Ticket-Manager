@@ -6,14 +6,14 @@ import { BrowserRouter } from 'react-router'
 import { Sidebar } from './Sidebar.tsx'
 
 const root = document.getElementById('root')
-if (root)
-  root.classList.add("flex")
 
 createRoot(root!).render(
   <StrictMode>
-    <Sidebar />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <div className="grid xl:grid-cols-[16rem_auto]">
+      <Sidebar />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </div>
   </StrictMode>
 )
