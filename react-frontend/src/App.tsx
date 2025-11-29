@@ -2,7 +2,7 @@ import { Routes, Route, Navigate, Outlet } from "react-router";
 import { Login } from './Login.tsx'
 import { Home } from "./Home.tsx";
 import { NotificationBar } from "./NotificationBar.tsx";
-import { PageBar } from "./PageBarProps.tsx";
+import { PageBar } from "./PageBar.tsx";
 import { RequireAuth } from "./RequireAuth.tsx";
 
 function Layout() {
