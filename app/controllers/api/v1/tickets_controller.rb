@@ -7,7 +7,7 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
     before_action :ticket_type_hash, only: %i[ index show update create ]
 
     def index
-      render json: { r: [ tickets: Ticket.all.order(created_at: :desc).limit(100), ticket_types: @ticket_type_hash ] }
+      render json: { r: Ticket.all.order(created_at: :desc).limit(100) }
     end
 
     def show

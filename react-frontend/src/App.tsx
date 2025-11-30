@@ -4,6 +4,7 @@ import { Home } from "./Home.tsx";
 import { NotificationBar } from "./NotificationBar.tsx";
 import { PageBar } from "./PageBar.tsx";
 import { RequireAuth } from "./RequireAuth.tsx";
+import { TicketDashboard } from "./TicketDashboard.tsx";
 
 function Layout() {
   return (
@@ -24,7 +25,7 @@ export function App() {
       <Route element={<RequireAuth><Layout /></RequireAuth>}>
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<>Dashboard</>} />
-
+        <Route path="/tickets/:ticket_id?" element={<TicketDashboard />} />
       </Route>
 
       {/* Public Pages */}
