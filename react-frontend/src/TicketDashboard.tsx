@@ -1,19 +1,37 @@
-import { useParams } from "react-router"
+import { useParams, useNavigate } from "react-router"
 import { Ticket } from "./Ticket";
 import { useEffect, useState } from "react";
 
 // Rewrite this to be an actual "TICKET" entry to shut TS errors up.
 interface TicketItemProps {
+  id: Number,
   title?: string,
   label?: string,
   body?: string,
 }
 
-function TicketItem({ title, label, body }: TicketItemProps) {
+function TicketItem({ id, title, label, body }: TicketItemProps) {
+  const navigate = useNavigate();
+
+  const ticketLink = (ev: React.SyntheticEvent) => {
+    if (!(ev.target instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const id: string | undefined = ev.target.dataset['id'];
+
+    if (!Number(id)) {
+      //TODO: JS Logger.
+      return;
+    }
+
+    navigate(`/tickets/${id}`);
+  }
+
   return <>
-    <div className="p-2">
-      {title} - {body}
-    </div>
+    <button onClick={ticketLink} data-id={id} className="border-gray-400 border-b-1 px-2 py-4 w-full text-left hover:bg-gray-200">
+      {title} - {body} - {label}
+    </button>
   </>
 }
 
@@ -40,8 +58,7 @@ function TicketList() {
       });
   }, [])
   return <>
-
-    {isLoading ? (<div>is Loading...</div>) : (ticketData.map((o, i) => (<TicketItem key={i} title={o.title} body={o.body} />)))}
+    {isLoading ? (<div>is Loading...</div>) : (ticketData.map((o, i) => (<TicketItem key={i} id={o.id} label={o.ticket_type.name} title={o.title} body={o.body} />)))}
   </>
 }
 
