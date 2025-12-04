@@ -4,6 +4,7 @@ import { DisplayTicket } from "./Ticket";
 import type { Ticket } from "./types/Ticket";
 
 // Rewrite this to be an actual "TICKET" entry to shut TS errors up.
+
 interface TicketItemProps {
   id: Number,
   title?: string,
@@ -13,7 +14,6 @@ interface TicketItemProps {
 
 function TicketItem({ id, title, label, body }: TicketItemProps) {
   const navigate = useNavigate();
-
   const ticketLink = (ev: React.SyntheticEvent) => {
     if (!(ev.target instanceof HTMLButtonElement)) {
       return;
@@ -64,21 +64,38 @@ function TicketList() {
 }
 
 export function TicketDashboard() {
+  const navigate = useNavigate();
   const ticket_id: number = Number(useParams().ticket_id);
+
+  const returnToTicketList = (ev: React.SyntheticEvent) => {
+    if (!(ev.target instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    navigate('/tickets')
+  };
 
   return <>
     {/* Small TicketDashboard View */}
     <div className="block xl:hidden col-start-1 col-span-7 xl:col-span-6 row-span-3">
-      <div className="border border-1">
-        {ticket_id ? <DisplayTicket /> : <TicketList />}
+      <div className="border border-1 relative">
+        {ticket_id
+          ? (
+            <>
+              <button onClick={returnToTicketList} className="w-fit p-2 top-2.5 left-2.5 z-10 absolute border border-gray-400 bg-blue-600 text-white hover:text-black hover:bg-gray-200 rounded-2xl">Ticket List</button>
+              <DisplayTicket />
+            </>
+          )
+          : <TicketList />
+        }
       </div>
     </div>
 
     {/* Large TicketDashboard View */}
-    <div className="xl:col-start-1 xl:col-span-2 xl:row-span-2 xl:ml-2 xl:mb-2 xl:border xl:border-l xl:rounded-xl">
+    <div className="hidden xl:block xl:col-start-1 xl:col-span-2 xl:row-span-2 xl:ml-2 xl:mb-2 xl:border xl:border-l xl:rounded-xl">
       <TicketList />
     </div>
-    <div className="xl:col-start-3 xl:col-span-4 xl:row-span-2 xl:mb-2 xl:border xl:border-1 xl:rounded-xl">
+    <div className="hidden xl:block xl:col-start-3 xl:col-span-4 xl:row-span-2 xl:mb-2 xl:border xl:border-1 xl:rounded-xl">
       <div>
         <DisplayTicket />
       </div>
