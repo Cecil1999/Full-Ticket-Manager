@@ -4,14 +4,13 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
 
     before_action :ticket_params, only: %i[ update create ]
     before_action :set_ticket, only: %i[ show update ]
-    before_action :ticket_type_hash, only: %i[ index show update create ]
 
     def index
-      render json: { r: [ tickets: Ticket.all.order(created_at: :desc).limit(100), ticket_types: @ticket_type_hash ] }
+      render json: { r: Ticket.all.order(created_at: :desc).limit(100).as_json() }
     end
 
     def show
-      render json: @ticket, include: { posts: {}, ticket_type: { only: :name } }
+      render json: { r: @ticket.as_json({ posts: {} }) }
     end
 
     def update
@@ -38,14 +37,10 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
 
     private
     def set_ticket
-        @ticket = Ticket.find(params[:id])
+      @ticket = Ticket.find(params[:id])
     end
 
     def ticket_params
         params.expect(ticket: [ :title, :body, :ticket_type_id ])
-    end
-
-    def ticket_type_hash
-      @ticket_type_hash = TicketType.all.map { |type| [ type.id, type.name ] }.to_h
     end
 end
