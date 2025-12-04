@@ -5,14 +5,20 @@ import { NotificationBar } from "./NotificationBar.tsx";
 import { PageBar } from "./PageBar.tsx";
 import { RequireAuth } from "./RequireAuth.tsx";
 import { TicketDashboard } from "./TicketDashboard.tsx";
+import { Sidebar } from './Sidebar.tsx'
 
 function Layout() {
   return (
-    <div className="col-start-2 col-span-full">
-      <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-y-2 gap-x-1 h-screen w-full">
-        <PageBar />
-        <Outlet />
-        <NotificationBar />
+    <div className="grid grid-cols-[auto] xl:grid-cols-[16rem_auto] grid-rows-[auto] h-screen" id="parent_grid">
+      <div className="col-start-1 xl:col-start-1">
+        <Sidebar />
+      </div>
+      <div className="col-start-1 xl:col-start-2">
+        <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-y-2 gap-x-1 h-screen w-full">
+          <PageBar />
+          <Outlet />
+          <NotificationBar />
+        </div>
       </div>
     </div>
   );

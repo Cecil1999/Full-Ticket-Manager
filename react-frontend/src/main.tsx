@@ -3,17 +3,13 @@ import { createRoot } from 'react-dom/client'
 import './App.css'
 import { App } from './App.tsx'
 import { BrowserRouter } from 'react-router'
-import { Sidebar } from './Sidebar.tsx'
 
 const root = document.getElementById('root')
 
 createRoot(root!).render(
   <StrictMode>
-    <div className="grid xl:grid-cols-[16rem_auto] grid-rows-[auto] h-screen" id="parent_grid">
-      <Sidebar />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>
 )

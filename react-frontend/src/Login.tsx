@@ -62,8 +62,8 @@ export function Login() {
   }
 
   return (
-    <div className="my-auto row-start-2">
-      <div className="w-128 h-fit mx-auto border border-1 rounded-xl">
+    <div className="row-start-1 col-start-2 grid place-items-center h-screen">
+      <div className="w-128 h-fit border border-1 rounded-xl">
         <h1 className="text-3xl text-center p-1">Login</h1>
         <div className="flex flex-col p-4">
           <form action={loginAction}>
