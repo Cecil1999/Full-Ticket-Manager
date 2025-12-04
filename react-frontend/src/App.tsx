@@ -9,7 +9,7 @@ import { TicketDashboard } from "./TicketDashboard.tsx";
 function Layout() {
   return (
     <div className="col-start-2 col-span-full">
-      <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-1 h-screen w-full">
+      <div className="grid grid-rows-[4rem_auto_auto] grid-cols-7 gap-y-2 gap-x-1 h-screen w-full">
         <PageBar />
         <Outlet />
         <NotificationBar />

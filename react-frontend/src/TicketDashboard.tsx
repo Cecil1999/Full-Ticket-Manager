@@ -74,6 +74,15 @@ export function TicketDashboard() {
       </div>
     </div>
 
-    {/* Large TicketDasahboard View */}
+    {/* Large TicketDashboard View */}
+    <div className="xl:col-start-1 xl:col-span-2 xl:row-span-2 xl:ml-2 xl:mb-2 xl:border xl:border-l xl:rounded-xl">
+      <TicketList />
+    </div>
+    <div className="xl:col-start-3 xl:col-span-4 xl:row-span-2 xl:mb-2 xl:border xl:border-1 xl:rounded-xl">
+      <div>
+        <DisplayTicket />
+      </div>
+    </div>
+
   </>
 }
