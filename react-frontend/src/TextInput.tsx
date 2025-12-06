@@ -1,22 +1,24 @@
 import { nameCase } from "@foundernest/namecase";
+import type { InputHTMLAttributes } from "react";
 
-type TextType = "text" | "password" | "email";
-
-interface expectedInputProps {
-  type: TextType,
-  id: string,
-  name: string,
+interface expectedInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string,
   extraClasses?: string,
 };
 
-export function TextInput({ type, id, name, extraClasses }: expectedInputProps) {
+export function TextInput(passedProps: expectedInputProps) {
+  const classNames = passedProps.type?.match(/submit|button/i)
+    ? "p-4 border border-1 border-white rounded-xl bg-indigo-700 hover:bg-indigo-500 text-white"
+    : "w-full p-2 border border-1 rounded-md";
+
   return <>
     <div className="mb-4">
-      <div className="">
-        <label htmlFor={name}>{nameCase(name)}</label>
-      </div>
+      {passedProps.label
+        ? <div><label htmlFor="passedProps.id">{nameCase(passedProps.label)}</label></div>
+        : <></>
+      }
       <div className="w-full">
-        <input type={type} id={id} name={name} className={`w-full p-2 border border-1 rounded-md ${extraClasses}`} />
+        <input type={passedProps.type} className={`${classNames} ${passedProps.extraClasses || ''}`} {...passedProps} />
       </div>
     </div>
   </>;

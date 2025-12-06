@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { User } from "./types/User.ts";
+import UserForm from './UserForm.tsx';
 
 function isUserInfoUserType(obj: any): obj is User {
   return obj && 'username' in obj && 'email' in obj;
@@ -37,6 +38,10 @@ export function Profile() {
           ? <div className="row-start-2 row-span-full col-span-7 xl:col-span-6 border border-1 xl:ml-2 mb-2">
             <div className="grid place-items-center w-full h-full">
               <div className="size-128 border border-1">
+                <div className="text-center w-full h-fit my-4">
+                  <h2 className="text-2xl">User Profile</h2>
+                </div>
+                <UserForm />
               </div>
             </div>
           </div>
