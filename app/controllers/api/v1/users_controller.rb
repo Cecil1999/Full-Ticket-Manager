@@ -12,9 +12,14 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     render json: { r: @user.as_json(only: [ :id, :username, :email ], include: { roles: { only: :name }, team: { only: :name } }) }
   end
 
+  def profile
+    render json: { r: $current_user.as_json(only: [ :id, :username, :email ], include: { roles: { only: :name }, team: { only: :name } }) }
+  end
+
   def create
     render json: { e: "Forbidden." }, status: 403
   end
+
 
   def update
     if @user.update(user_params)

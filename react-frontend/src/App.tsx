@@ -6,6 +6,7 @@ import { PageBar } from "./PageBar.tsx";
 import { RequireAuth } from "./RequireAuth.tsx";
 import { TicketDashboard } from "./TicketDashboard.tsx";
 import { Sidebar } from './Sidebar.tsx'
+import { Profile } from "./Profile.tsx";
 
 function Layout() {
   return (
@@ -30,6 +31,7 @@ export function App() {
       {/* Routes behind a Auth check. */}
       <Route element={<RequireAuth><Layout /></RequireAuth>}>
         <Route path="/home" element={<Home />} />
+        <Route path="/user" element={<Profile />} />
         <Route path="/dashboard" element={<>Dashboard</>} />
         <Route path="/tickets/:ticket_id?" element={<TicketDashboard />} />
       </Route>

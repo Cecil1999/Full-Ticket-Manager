@@ -7,7 +7,11 @@ Rails.application.routes.draw do
       resources :ticket_types
 
       # User Routes.
-      resources :users
+      resources :users do
+        collection do
+          get :profile
+        end
+      end
 
       # Team Routes.
       resources :teams, only: %i[ index show update destroy ]
