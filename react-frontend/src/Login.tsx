@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { SubmitButton } from './SubmitButton.tsx'
 import { TextInput } from './TextInput.tsx'
 import { useNavigate } from 'react-router'
 
@@ -69,7 +68,7 @@ export function Login() {
           <form action={loginAction}>
             <TextInput type="text" id="username" name="username" />
             <TextInput type="password" id="password" name="password" />
-            <SubmitButton type="submit" value="Login" />
+            <TextInput type="submit" value="Log in" />
           </form>
         </div>
       </div>
