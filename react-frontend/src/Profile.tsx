@@ -41,7 +41,7 @@ export function Profile() {
                 <div className="text-center w-full h-fit my-4">
                   <h2 className="text-2xl">User Profile</h2>
                 </div>
-                <UserForm />
+                <UserForm user={userInfo} />
               </div>
             </div>
           </div>

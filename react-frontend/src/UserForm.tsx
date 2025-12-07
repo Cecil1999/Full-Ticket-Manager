@@ -1,10 +1,39 @@
+import { useRef } from 'react';
 import { TextInput } from "./TextInput"
+import type { User } from "./types/User.ts";
 
-export default function UserForm() {
+interface userFormProps {
+  user: User
+}
+
+export default function UserForm({ user }: userFormProps) {
+  const changingPassword = useRef<boolean>(false);
+
   const handleFormSubmit = (formData: FormData) => {
+    const values: { [key: string]: any } = {
+      username: formData.get('username'),
+    };
+
+    if (changingPassword.current) {
+      values.password = formData.get('password');
+      values.password_confirmation = formData.get('password_confirmation');
+    }
+
     //TODO: Need to use update, with current user. I don't want the profile management having access to userid, as FE doesn't have that yet.
     //This means going into the back end and figuring it out.
     //When submitting I need to keep the value of the shit that was changed. Rather not useState X times that's dumb.
+    const jwtToken: String = document.cookie.split(';')[0].substring(4);
+    fetch('/api/v1/users/update', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      body: JSON.stringify(values),
+    }).then(Response => Response.json)
+      .then((data) => {
+
+      })
   }
 
   const showPasswordDiv = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +42,7 @@ export default function UserForm() {
     const password_conf_input: HTMLInputElement | null = document.getElementById('password_confirmation') as HTMLInputElement;
 
     const isChecked = ev.currentTarget.checked;
+    changingPassword.current = isChecked;
     change_password_div?.classList.toggle('hidden', !isChecked);
     password_input.disabled = !isChecked;
     password_conf_input.disabled = !isChecked;
@@ -22,7 +52,7 @@ export default function UserForm() {
     <form action={handleFormSubmit} className="p-2">
       <div className="flex flex-col gap-4">
         <div className="flex-grow">
-          <TextInput type="text" id="username" name="username" label="Username" readOnly />
+          <TextInput type="text" id="username" name="username" label="Username" value={user.username} readOnly />
           <label>
             Change Password?
             <input type="checkbox" id="change_password_cb" className="ml-2" onChange={showPasswordDiv} />

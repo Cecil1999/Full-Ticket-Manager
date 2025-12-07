@@ -6,6 +6,7 @@ class Api::V1::ApplicationController < ActionController::API
   rescue_from Authorizable::NotAuthorized, with: :forbidden
   rescue_from Authorizable::FunctionAuthNotEnabled, with: :call_attention_to_admins
   rescue_from Authorizable::FunctionAuthHasNoRoles, with: :call_attention_to_admins
+  wrap_parameters false
 
   private
   def forbidden

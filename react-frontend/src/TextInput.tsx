@@ -14,7 +14,7 @@ export function TextInput(passedProps: expectedInputProps) {
   return <>
     <div className="mb-4">
       {passedProps.label
-        ? <div><label htmlFor="passedProps.id">{nameCase(passedProps.label)}</label></div>
+        ? <div><label htmlFor={passedProps.id}>{nameCase(passedProps.label)}</label></div>
         : <></>
       }
       <div className="w-full">

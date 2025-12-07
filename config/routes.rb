@@ -6,12 +6,9 @@ Rails.application.routes.draw do
       end
       resources :ticket_types
 
-      # User Routes.
-      resources :users do
-        collection do
-          get :profile
-        end
-      end
+
+      get "/users/profile", to: "users#profile"
+      post "/users/update", to: "users#update"
 
       # Team Routes.
       resources :teams, only: %i[ index show update destroy ]
