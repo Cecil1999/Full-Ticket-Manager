@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { SubmitButton } from './SubmitButton.tsx'
 import { TextInput } from './TextInput.tsx'
 import { useNavigate } from 'react-router'
 
@@ -67,9 +66,9 @@ export function Login() {
         <h1 className="text-3xl text-center p-1">Login</h1>
         <div className="flex flex-col p-4">
           <form action={loginAction}>
-            <TextInput type="text" id="username" name="username" />
-            <TextInput type="password" id="password" name="password" />
-            <SubmitButton type="submit" value="Login" />
+            <TextInput type="text" id="username" name="username" label="username" />
+            <TextInput type="password" id="password" name="password" label="password" />
+            <TextInput type="submit" value="Log in" />
           </form>
         </div>
       </div>

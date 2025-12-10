@@ -6,6 +6,7 @@ const desktopTicketNavs = [
 ];
 
 const mobileTicketNavs = [
+  { path: "/user/", name: "Profile" },
   { path: "/tickets/", name: "Tickets" }
 ];
 
