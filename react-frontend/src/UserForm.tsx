@@ -9,9 +9,15 @@ interface userFormProps {
 export default function UserForm({ user }: userFormProps) {
   const changingPassword = useRef<boolean>(false);
 
-  const handleFormSubmit = (formData: FormData) => {
+  const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
+    ev.preventDefault();
+
+    const form = ev.currentTarget;
+    const formData = new FormData(form);
+
     const values: { [key: string]: any } = {
       username: formData.get('username'),
+      email: formData.get('email'),
     };
 
     if (changingPassword.current) {
@@ -30,9 +36,14 @@ export default function UserForm({ user }: userFormProps) {
         Authorization: `Bearer ${jwtToken}`,
       },
       body: JSON.stringify(values),
-    }).then(Response => Response.json)
+    }).then(Response => Response.json())
       .then((data) => {
+        if (data.e) {
+          console.log(data.e);
+          return;
+        }
 
+        // TODO: "Alert", add alert.
       })
   }
 
@@ -49,10 +60,11 @@ export default function UserForm({ user }: userFormProps) {
   }
 
   return <>
-    <form action={handleFormSubmit} className="p-2">
+    <form onSubmit={handleFormSubmit} className="p-2" method="POST">
       <div className="flex flex-col gap-4">
         <div className="flex-grow">
           <TextInput type="text" id="username" name="username" label="Username" value={user.username} readOnly />
+          <TextInput type="text" id="email" name="email" label="Email" defaultValue={user.email} />
           <label>
             Change Password?
             <input type="checkbox" id="change_password_cb" className="ml-2" onChange={showPasswordDiv} />
@@ -62,9 +74,25 @@ export default function UserForm({ user }: userFormProps) {
             <TextInput type="password" id="password_confirmation" name="password_confirmation" label="Password Confirmation" disabled />
           </div>
         </div>
+        <div className="flex-1 flex">
+          <div className="flex-1">
+            <h3 className="text-xl text-center w-full">Roles</h3>
+            <ul className="list-none px-4">
+              {/* TODO: Style: Pill these. */}
+              {user.roles ? user.roles.map((o) => (<li>{o.name}</li>)) : (<li>None</li>)}
+            </ul>
+          </div>
+          <div className="flex-1">
+            <h3 className="text-xl text-center w-full">Teams</h3>
+            <ul className="list-none px-4">
+              {/* TODO: Pill these. */}
+              {user.teams ? user.teams.map((o) => (<li>{o.name}</li>)) : (<li>None</li>)}
+            </ul>
+          </div>
+        </div>
         <div className="flex-none">
           <TextInput type="submit" value="Submit Changes" />
-        </div >
+        </div>
       </div>
     </form >
   </>
