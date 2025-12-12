@@ -13,12 +13,25 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
 
     if user&.authenticate(params[:password])
-      token = JsonWebToken.encode(id: user.id)
-      render json: { r: "success", auth_token: token }
+      user.create_refresh_token
+
+      response.set_cookie(:refresh_token, {
+        value: user.refresh_token,
+        httponly: true,
+        secure: true,
+        path: "/api/v1/refresh_token",
+        expires: 1.hour.from_now
+      })
+
+      render json: { r: "success", auth_token: user.create_access_token() }
     else
       handle_bad_authentication
     end
   end
+
+  def refresh
+  end
+
 
   def destroy
     revoke_token
