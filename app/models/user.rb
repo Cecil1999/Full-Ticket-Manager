@@ -13,5 +13,6 @@ class User < ApplicationRecord
     token = JsonWebToken.create_refresh_token(id: self.id)
     self.refresh_token = token
     self.save!
+    token
   end
 end

@@ -1,4 +1,6 @@
 class Api::V1::AuthController < Api::V1::ApplicationController
+  include ActionController::Cookies
+
   rescue_from ActiveRecord::RecordNotFound, with: :handle_user_not_found
 
   def create
@@ -13,14 +15,12 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
 
     if user&.authenticate(params[:password])
-      user.create_refresh_token
-
       response.set_cookie(:refresh_token, {
-        value: user.refresh_token,
+        value: user.create_refresh_token,
         httponly: true,
         secure: true,
-        path: "/api/v1/refresh_token",
-        expires: 1.hour.from_now
+        path: "/api/v1/auth/refresh_token",
+        expires: 1.day.from_now
       })
 
       render json: { r: "success", auth_token: user.create_access_token() }
@@ -29,9 +29,19 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
   end
 
+  # GET /auth/refresh_token
   def refresh
-  end
+    token = JsonWebToken.decode_refresh_token(cookies[:refresh_token])
 
+    if token["type"] != "refresh"
+      # TODO: Maybe "Log" this instead of returning this don't really want to tell the users that we know it isn't a refresh token.
+      render json: { e: "Cannot use access, nor any other type as a refresh token." }, status: 404 and return
+    end
+
+    user = User.find(token["id"])
+
+    render json: { r: "success", auth_token: user.create_access_token() }
+  end
 
   def destroy
     revoke_token

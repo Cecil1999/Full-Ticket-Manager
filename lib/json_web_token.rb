@@ -5,7 +5,7 @@ module JsonWebToken
   @access_token_secret  = "kWnVtZA2LezioE6c9TvP0ZRyT7mydZLKG49MafhX9GE="
   @refresh_token_secret = "test12345678910"
 
-  def self.encode_access_token(payload, exp = 8.hours.to_i)
+  def self.encode_access_token(payload, exp = 15.minutes.to_i)
     payload[:type] = "access"
     payload[:exp]  = Time.now.to_i + exp
     payload[:jid]  = ActiveRecord::Base.connection.exec_query("SELECT nextval('jwt_id_sequence')").to_a.first["nextval"]
