@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
+import { fetchApi } from './utils/fetchapi.ts';
 import type { Ticket } from './types/Ticket.ts'
 
 export function DisplayTicket() {
@@ -8,19 +9,12 @@ export function DisplayTicket() {
   const ticket_id: Number = Number(useParams().ticket_id);
 
   useEffect(() => {
-    const jwtToken: string = document.cookie.split(';')[0].substring(4).trim();
-
     if (!ticket_id) {
       setIsLoading(false);
       return;
     }
 
-    fetch(`/api/v1/tickets/${ticket_id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }).then(Response => Response.json())
+    fetchApi(`/api/v1/tickets/${ticket_id}`, 'GET')
       .then((data) => {
         if (data.e) {
           setIsLoading(false);
