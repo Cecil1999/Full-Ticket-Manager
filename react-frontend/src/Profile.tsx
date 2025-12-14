@@ -12,10 +12,8 @@ export function Profile() {
   const [userInfo, setUserInfo] = useState<User>();
 
   useEffect(() => {
-    const request = fetchApi('/api/v1/users/profile', 'GET');
-
-    if (request && request instanceof Promise) {
-      request.then((data) => {
+    fetchApi('/api/v1/users/profile', 'GET')
+      .then((data) => {
         if (data.e) {
           console.log(data.e);
           setIsLoading(false);
@@ -25,7 +23,6 @@ export function Profile() {
         setUserInfo(data.r);
         setIsLoading(false);
       });
-    }
   }, [])
 
   return <>
