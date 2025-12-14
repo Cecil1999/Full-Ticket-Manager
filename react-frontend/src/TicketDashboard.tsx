@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router"
 import { useEffect, useState } from "react";
 import { DisplayTicket } from "./Ticket";
 import type { Ticket } from "./types/Ticket";
+import { fetchApi } from "./utils/fetchapi";
 
 // Rewrite this to be an actual "TICKET" entry to shut TS errors up.
 
@@ -38,17 +39,11 @@ function TicketItem({ id, title, label, body }: TicketItemProps) {
 
 function TicketList() {
   // TODO: REALLY need to extend fetch or something hate having to redo this every time.
-  const jwtToken: string = document.cookie.split(';')[0].substring(4).trim();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [ticketData, setTicketData] = useState<Array<Ticket>>([]);
 
   useEffect(() => {
-    fetch('/api/v1/tickets', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }).then(Response => Response.json())
+    fetchApi('/api/v1/tickets', 'GET')
       .then((data) => {
         setTicketData(data.r);
         setIsLoading(false);

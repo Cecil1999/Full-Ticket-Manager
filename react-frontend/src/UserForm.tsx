@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { TextInput } from "./TextInput"
 import type { User } from "./types/User.ts";
+import { fetchApi } from './utils/fetchapi.ts';
 
 interface userFormProps {
   user: User
@@ -28,15 +29,7 @@ export default function UserForm({ user }: userFormProps) {
     //TODO: Need to use update, with current user. I don't want the profile management having access to userid, as FE doesn't have that yet.
     //This means going into the back end and figuring it out.
     //When submitting I need to keep the value of the shit that was changed. Rather not useState X times that's dumb.
-    const jwtToken: String = document.cookie.split(';')[0].substring(4);
-    fetch('/api/v1/users/update', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      body: JSON.stringify(values),
-    }).then(Response => Response.json())
+    fetchApi('/api/v1/users/update', 'POST')
       .then((data) => {
         if (data.e) {
           console.log(data.e);

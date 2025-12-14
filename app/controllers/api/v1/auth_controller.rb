@@ -23,7 +23,7 @@ class Api::V1::AuthController < Api::V1::ApplicationController
         expires: 1.day.from_now
       })
 
-      render json: { r: "success", auth_token: user.create_access_token() }
+      render json: { r: 1, auth_token: user.create_access_token() }
     else
       handle_bad_authentication
     end
@@ -40,7 +40,15 @@ class Api::V1::AuthController < Api::V1::ApplicationController
 
     user = User.find(token["id"])
 
-    render json: { r: "success", auth_token: user.create_access_token() }
+    render json: { r: 1, auth_token: user.create_access_token() }
+  end
+
+  def check
+    if check_token?
+      render json: { r: 1 }
+    else
+      render json: { e: 1, token: $current_user.create_access_token }, status: 404
+    end
   end
 
   def destroy
@@ -62,13 +70,13 @@ class Api::V1::AuthController < Api::V1::ApplicationController
 
   def revoke_token
     token = request.headers["Authorization"].split(" ").last
-    decoded_token = JsonWebToken.decode(token)
+    decoded_token = JsonWebToken.decode_access_token(token)
     BlacklistRedis.add(decoded_token)
   end
 
   def check_token?
     token = request.headers["Authorization"].split(" ").last
-    decoded_token = JsonWebToken.decode(token)
+    decoded_token = JsonWebToken.decode_access_token(token)
     !!decoded_token
   end
 end

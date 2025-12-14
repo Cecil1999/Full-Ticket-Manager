@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
       ## Session Management Routes.
       get "/auth/refresh_token", to: "auth#refresh"
+      get "/auth/check", to: "auth#check"
       post "/auth/sign_in", to: "auth#create"
       delete "/auth/sign_out", to: "auth#destroy"
     end
