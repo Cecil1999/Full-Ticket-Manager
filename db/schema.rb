@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_021744) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_023826) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,8 +32,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_021744) do
   create_table "notifications", force: :cascade do |t|
     t.text "body", null: false
     t.datetime "created_at", default: -> { "now()" }, null: false
-    t.boolean "seen", null: false
+    t.boolean "seen", default: false, null: false
     t.string "title", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -99,6 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_021744) do
 
   add_foreign_key "acls_roles", "acls"
   add_foreign_key "acls_roles", "roles"
+  add_foreign_key "notifications", "users"
   add_foreign_key "posts", "tickets"
   add_foreign_key "roles_users", "roles"
   add_foreign_key "roles_users", "users"
