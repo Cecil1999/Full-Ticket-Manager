@@ -18,7 +18,7 @@ class Api::V1::ApplicationController < ActionController::API
   end
 
   def handle_expired_signature
-    render json: { sign_back_in: 1, r: "Redirecting back to sign-in..." }, status: 403
+    render json: { e: "Expired Token" }, status: 403
   end
 
   def handle_cache_connection_failure

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { fetchApi } from './utils/fetchapi.ts';
 import type { User } from "./types/User.ts";
 import UserForm from './UserForm.tsx';
 
@@ -9,15 +10,9 @@ function isUserInfoUserType(obj: any): obj is User {
 export function Profile() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userInfo, setUserInfo] = useState<User>();
-  const jwtToken: string = document.cookie.split(';')[0].substring(4).trim();
 
   useEffect(() => {
-    fetch('/api/v1/users/profile', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }).then(Response => Response.json())
+    fetchApi('/api/v1/users/profile', 'GET')
       .then((data) => {
         if (data.e) {
           console.log(data.e);

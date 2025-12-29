@@ -6,7 +6,6 @@ Rails.application.routes.draw do
       end
       resources :ticket_types
 
-
       get "/users/profile", to: "users#profile"
       post "/users/update", to: "users#update"
 
@@ -23,6 +22,8 @@ Rails.application.routes.draw do
       delete "/acl/:ctrl/:act(.:format)", to: "acls#destroy"
 
       ## Session Management Routes.
+      get "/auth/refresh_token", to: "auth#refresh"
+      get "/auth/check", to: "auth#check"
       post "/auth/sign_in", to: "auth#create"
       delete "/auth/sign_out", to: "auth#destroy"
     end

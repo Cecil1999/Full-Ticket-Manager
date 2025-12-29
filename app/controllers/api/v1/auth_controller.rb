@@ -1,4 +1,6 @@
 class Api::V1::AuthController < Api::V1::ApplicationController
+  include ActionController::Cookies
+
   rescue_from ActiveRecord::RecordNotFound, with: :handle_user_not_found
 
   def create
@@ -13,10 +15,39 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
 
     if user&.authenticate(params[:password])
-      token = JsonWebToken.encode(id: user.id)
-      render json: { r: "success", auth_token: token }
+      response.set_cookie(:refresh_token, {
+        value: user.create_refresh_token,
+        httponly: true,
+        secure: true,
+        path: "/api/v1/auth/refresh_token",
+        expires: 1.day.from_now
+      })
+
+      render json: { r: 1, auth_token: user.create_access_token() }
     else
       handle_bad_authentication
+    end
+  end
+
+  # GET /auth/refresh_token
+  def refresh
+    token = JsonWebToken.decode_refresh_token(cookies[:refresh_token])
+
+    if token["type"] != "refresh"
+      # TODO: Maybe "Log" this instead of returning this don't really want to tell the users that we know it isn't a refresh token.
+      render json: { e: "Cannot use access, nor any other type as a refresh token." }, status: 404 and return
+    end
+
+    user = User.find(token["id"])
+
+    render json: { r: 1, auth_token: user.create_access_token() }
+  end
+
+  def check
+    if check_token?
+      render json: { r: 1 }
+    else
+      render json: { e: 1, token: $current_user.create_access_token }, status: 404
     end
   end
 
@@ -39,13 +70,13 @@ class Api::V1::AuthController < Api::V1::ApplicationController
 
   def revoke_token
     token = request.headers["Authorization"].split(" ").last
-    decoded_token = JsonWebToken.decode(token)
+    decoded_token = JsonWebToken.decode_access_token(token)
     BlacklistRedis.add(decoded_token)
   end
 
   def check_token?
     token = request.headers["Authorization"].split(" ").last
-    decoded_token = JsonWebToken.decode(token)
+    decoded_token = JsonWebToken.decode_access_token(token)
     !!decoded_token
   end
 end
