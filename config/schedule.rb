@@ -5,8 +5,9 @@
 
 # Example:
 #
-# set :job_template, "bash -l -c ':job'"
-# set :output, "~/crontab.txt"
+# set :bundle_command, ""
+# set :job_template, "bash -c ':job'"
+set :output, "~/crontab.txt"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -18,8 +19,12 @@
 #   runner "AnotherModel.prune_old_records"
 # end
 
+every 1.minutes do
+  runner "puts User.find(1)"
+end
+
 # every 1.minutes do
-# runner "puts User.find(1)"
+#  command "echo $PATH"
 # end
 
 # Learn more: http://github.com/javan/whenever
