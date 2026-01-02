@@ -19,12 +19,12 @@ set :output, "~/crontab.txt"
 #   runner "AnotherModel.prune_old_records"
 # end
 
-every 1.minutes do
-  runner "puts User.find(1)"
+every 1.minute do
+  runner "Notification.orcish_notification"
 end
 
-# every 1.minutes do
-#  command "echo $PATH"
-# end
+every 1.minute do
+  runner "Notification.clean_orcish_notification_list"
+end
 
 # Learn more: http://github.com/javan/whenever

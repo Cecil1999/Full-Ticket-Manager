@@ -15,5 +15,7 @@ module NotificationRedis
 
   def trim_user_notification_list(user_id = $current_user.id, count)
     nil unless count
+
+    @redis.lpop("notifications:#{user_id}", count)
   end
 end
