@@ -3,28 +3,24 @@
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
 
-# Example:
-#
+# Default Commands
 # set :bundle_command, ""
 # set :job_template, "bash -c ':job'"
 set :output, "~/crontab.txt"
-#
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
+
+# job_type :command, ":task :output"
+# job_type :rake,    "cd :path && :environment_variable=:environment :bundle_command rake :task --silent :output"
+# job_type :script,  "cd :path && :environment_variable=:environment :bundle_command script/:task :output"
+# job_type :runner,  "cd :path && :bundle_command :runner_command -e :environment ':task' :output"
+
+job_type :delayed_runner, "sleep 15 && cd :path && :bundle_command :runner_command -e :environment ':task' :output"
 
 every 1.minute do
   runner "Notification.orcish_notification"
 end
 
 every 1.minute do
-  runner "Notification.clean_orcish_notification_list"
+  delayed_runner "Notification.clean_orcish_notification_list"
 end
 
 # Learn more: http://github.com/javan/whenever
