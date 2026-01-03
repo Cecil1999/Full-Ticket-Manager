@@ -2,8 +2,8 @@ module NotificationRedis
   @redis = Redis.new(host: "127.0.0.1", port: 6379)
 
   class << self
-    def get_all_notification(user_id = $current_user.id)
-      @redis.lrange(0, -1)
+    def get_all_notifications(user_id = $current_user.id)
+      @redis.lrange("notifications:#{user_id}", 0, -1)
     end
 
     def set_notification(user_id, notification)

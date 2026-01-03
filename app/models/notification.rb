@@ -4,6 +4,10 @@ class Notification < ApplicationRecord
   validates :body, presence: true
 
   class << self
+    def get
+      NotificationRedis.get_all_notifications()
+    end
+
     # Only caller should be our crontab job. We could have this in a route as well.
     # Get all notifications from DB. Update them in the cache, have to do this for each 'user'.
     # O(n^2) time, that's why we really shouldn't be storing more then 50 notifications for each person.
@@ -18,7 +22,7 @@ class Notification < ApplicationRecord
         redis_notification.set_notification(notification.user_id, notification)
 
         notification.seen = true
-        notification.save
+        notification.save!
       end
     end
 

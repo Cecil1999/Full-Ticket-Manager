@@ -1,9 +1,9 @@
 class Api::V1::NotificationsController < Api::V1::ApplicationController
+  include Authenticable
+
   # GET /notifications
   def index
-    render json: { e: "Unexpected error has occurred" } and return unless $current_user
-
-    render json: { r: Notifiocations.orcish_notifications }
+    render json: { r: Notification.get() }
   end
 
   # GET /notifications/refresh
