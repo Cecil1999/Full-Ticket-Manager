@@ -15,7 +15,7 @@ class Notification < ApplicationRecord
       return unless notifications.any?
 
       notifications.each do |notification|
-        redis_notification.set_notification(notification.user_id, notification.as_json)
+        redis_notification.set_notification(notification.user_id, notification)
 
         notification.seen = true
         notification.save
