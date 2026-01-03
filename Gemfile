@@ -20,6 +20,9 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 
+# Whenever for 'cronjobs'
+gem "whenever"
+
 # CORS.
 gem "rack-cors"
 

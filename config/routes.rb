@@ -26,6 +26,9 @@ Rails.application.routes.draw do
       get "/auth/check", to: "auth#check"
       post "/auth/sign_in", to: "auth#create"
       delete "/auth/sign_out", to: "auth#destroy"
+
+      ## Notifications
+      get "/notifications", to: "notifications#index"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

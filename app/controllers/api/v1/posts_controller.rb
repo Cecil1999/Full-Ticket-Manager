@@ -1,6 +1,5 @@
 class Api::V1::PostsController < Api::V1::ApplicationController
   include Authenticable
-  include Authorizable
 
   before_action :set_ticket
 
@@ -14,7 +13,19 @@ class Api::V1::PostsController < Api::V1::ApplicationController
 
   def create
     @post = @ticket.posts.build(post_params)
+    @post.user_id = $current_user.id
+
     if @post.save
+      if @post.user_id != @ticket.user_id
+        notification = Notification.create(
+          title: "#{$current_user.username} - has posted to #{@ticket.id}",
+          body: "#{@post.body}",
+        )
+
+        notification.user_id = @ticket.user_id
+
+        notification.save!
+      end
       render json: { r: "Post Successfully Created." }
     else
       render json: { e: @post.errors }, status: 422
