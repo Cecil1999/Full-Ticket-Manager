@@ -14,10 +14,10 @@ module NotificationRedis
       @redis.llen("notifications:#{user_id}")
     end
 
-    def trim_user_notification_list(user_id, count)
+    def trim_user_notifications_list(user_id, count)
       nil unless count
 
-      @redis.lpop("notifications:#{user_id}", count)
+      @redis.rpop("notifications:#{user_id}", count)
     end
   end
 end

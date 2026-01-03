@@ -10,7 +10,7 @@ class Notification < ApplicationRecord
     def orcish_notification
       redis_notification = NotificationRedis
 
-      notifications = Notification.where.not(seen: true).order(:user_id, created_at: :desc).limit(25)
+      notifications = Notification.where.not(seen: true).order(:id, :user_id, created_at: :desc).limit(25)
 
       return unless notifications.any?
 
@@ -27,12 +27,15 @@ class Notification < ApplicationRecord
     # due to our limit. Check to ensure our notification lists ARE infact <= 25. If not pop <length> - 25.
     def clean_orcish_notification_list
       redis_notification = NotificationRedis
-      User.all() do |user|
-        current_length = redis_notification.notification_by_user(user.id)
+      users = User.all
+      users.each do |user|
+        current_length = redis_notification.notifications_by_user(user.id)
+
+        puts current_length
 
         next if current_length <= 25
 
-        redis_notification.trim_notifications_by_user(user.id)
+        redis_notification.trim_user_notifications_list(user.id, current_length - 25)
       end
     end
   end
