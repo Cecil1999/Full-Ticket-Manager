@@ -1,0 +1,9 @@
+[Unit]
+Description=Ticket-Manager-Notification-Refresher
+
+[Service]
+WorkingDirectory=/etc/systemd/system/notification.refresher.service
+ExecStart=/web-backend/bin/rails 'Notification.'
+
+[Install]
+WantedBy=Multi-user.target
