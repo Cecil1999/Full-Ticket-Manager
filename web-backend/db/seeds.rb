@@ -8,16 +8,14 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+[ 'fibre', 'cable' ].each do | type_name |
+  TicketType.find_or_create_by!(name: type_name)
+end
+
 [ 'title1', 'title2' ].each do |title|
-  Ticket.find_or_create_by!(title: title, body: 'Seed Data Destory', ticket_type_id: 2)
+  Ticket.find_or_create_by!(title: title, body: 'Seed Data Destory', ticket_type_id: 2, user_id: 1)
 end
 
 [ 'User', 'Admin' ].each do |role|
   Role.find_or_create_by!(name: role)
 end
-
-User.find_or_create_by!(
-  username: "Test",
-  email:    "test@example.com",
-  password_digest: "securepassword",
-)
