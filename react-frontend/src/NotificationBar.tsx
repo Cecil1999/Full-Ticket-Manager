@@ -1,14 +1,41 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react";
 import { fetchApi } from "./utils/fetchapi";
+import type { Notification } from "./types/Notification.ts";
+import { NotificationCard } from "./Notification.tsx";
 
 export function NotificationBar() {
+  const [notification, setNotification] = useState<Notification[]>([]);
+
   useEffect(() => {
-    // TODO: API call for "Notifications".
-    fetchApi('/api/v1/notifications', 'GET')
-      .then((data) => {
-        console.log(data);
-      });
-  }, [])
+    const fetchNotification = () => {
+      fetchApi('/api/v1/notifications', 'GET')
+        .then((data) => {
+          if (data.e) {
+            console.log('Error');
+            return;
+          }
+
+          if (data.r) {
+            setNotification(data.r);
+          }
+        });
+    }
+
+    const intervalId = setInterval(fetchNotification, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+
+  const constructNotificationList = (notification: Notification[]) => {
+    return <>
+      {
+        notification.filter((o) => Boolean(o)).map((o, i) => {
+          <NotificationCard key={i} {...o} />
+        })
+      }
+    </>
+  };
 
   const extendSmallNotificationMenu = () => {
     const smallMenuDiv: HTMLElement = document.getElementById('notificationMenu')!;
@@ -33,11 +60,13 @@ export function NotificationBar() {
       </span>
     </div>
     <div className="hidden right-0 text-left flex flex-col w-64 h-96 overflow-y-auto z-10 bg-gray-200 border border-1 rounded-xl 2xl:hidden" id="notificationMenu">
+      {notification ? constructNotificationList(notification) : ''}
     </div>
     <div className="col-span-1 col-start-7 row-span-full row-start-1 m-2 border border-1 rounded-xl hidden 2xl:block">
       <div className="p-4">
         <h2 className="text-3xl text-center">Notifications</h2>
         <div className="border-b-1"></div>
+        {notification ? constructNotificationList(notification) : ''}
       </div>
     </div>
   </>

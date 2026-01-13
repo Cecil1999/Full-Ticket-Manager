@@ -1,10 +1,6 @@
-type NotificationProps = {
-  ticket_id: number,
-  title: string,
-  body: string,
-};
+import type { Notification } from "./types/Notification.ts";
 
-export function Notification({ ticket_id, title, body }: NotificationProps) {
+export function NotificationCard({ ticket_id, title, body }: Notification) {
   return (
     <a href={`/tickets/${ticket_id}`}>
       <div className="p-4">
@@ -15,4 +11,4 @@ export function Notification({ ticket_id, title, body }: NotificationProps) {
       </div>
     </a >
   )
-} 
+}
