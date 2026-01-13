@@ -3,7 +3,8 @@ module NotificationRedis
 
   class << self
     def get_all_notifications(user_id = $current_user.id)
-      @redis.lrange("notifications:#{user_id}", 0, -1)
+      all_notifications = @redis.lrange("notifications:#{user_id}", 0, -1)
+      all_notifications.map! { |notification| JSON.parse(notification) }
     end
 
     def set_notification(user_id, notification)
