@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
       ## Notifications
       get "/notifications", to: "notifications#index"
+      get "/refresh_notification", to: "notifications#refresh"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

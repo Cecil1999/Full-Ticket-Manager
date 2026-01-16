@@ -8,6 +8,10 @@ class Notification < ApplicationRecord
       NotificationRedis.get_all_notifications()
     end
 
+    def get_unseen
+      NotificationRedis.unseen_notifications()
+    end
+
     # Only caller should be our crontab job. We could have this in a route as well.
     # Get all notifications from DB. Update them in the cache, have to do this for each 'user'.
     # O(n^2) time, that's why we really shouldn't be storing more then 50 notifications for each person.

@@ -6,7 +6,7 @@ export function NotificationCard({ ticket_id, title, body }: Notification) {
       <div className="p-4">
         <h4>{title}</h4>
         <p className="overflow-hidden text-ellipsis">
-          ${body}
+          {body}
         </p>
       </div>
     </a >

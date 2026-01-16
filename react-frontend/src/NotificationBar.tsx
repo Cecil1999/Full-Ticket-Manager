@@ -1,41 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchApi } from "./utils/fetchapi";
 import type { Notification } from "./types/Notification.ts";
 import { NotificationCard } from "./Notification.tsx";
 
 export function NotificationBar() {
   const [notification, setNotification] = useState<Notification[]>([]);
+  const [gettingMore, setGettingMore] = useState<boolean>(false);
+  const completedFirstRender = useRef(false);
 
   useEffect(() => {
-    const fetchNotification = () => {
-      fetchApi('/api/v1/notifications', 'GET')
-        .then((data) => {
-          if (data.e) {
-            console.log('Error');
-            return;
-          }
-
-          if (data.r) {
-            setNotification(data.r);
-          }
-        });
-    }
-
-    const intervalId = setInterval(fetchNotification, 5000);
-
-    return () => clearInterval(intervalId);
+    fetchApi('/api/v1/notifications', 'GET')
+      .then(data => {
+        setNotification(data.r);
+      })
+    completedFirstRender.current = true;
   }, []);
 
+  useEffect(() => {
+    let intervalId: number;
 
-  const constructNotificationList = (notification: Notification[]) => {
-    return <>
-      {
-        notification.filter((o) => Boolean(o)).map((o, i) => {
-          <NotificationCard key={i} {...o} />
-        })
-      }
-    </>
-  };
+    if (completedFirstRender) {
+      intervalId = setInterval(() => {
+        if (!gettingMore) {
+          setGettingMore(true);
+          fetchApi('/api/v1/refresh_notification', 'GET')
+            .then((data) => {
+              if (data.r) {
+                setNotification(prev => {
+                  const currentIds = prev.map(n => n.id);
+
+                  const newNotifications = data.r.filter((o: Notification) => !currentIds.includes(o.id));
+
+                  return [...newNotifications, ...prev]
+                });
+              }
+            })
+            .finally(() => setGettingMore(false));
+        }
+      }, 5000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+      setGettingMore(false);
+    };
+  }, [gettingMore]);
 
   const extendSmallNotificationMenu = () => {
     const smallMenuDiv: HTMLElement = document.getElementById('notificationMenu')!;
@@ -60,13 +69,13 @@ export function NotificationBar() {
       </span>
     </div>
     <div className="hidden right-0 text-left flex flex-col w-64 h-96 overflow-y-auto z-10 bg-gray-200 border border-1 rounded-xl 2xl:hidden" id="notificationMenu">
-      {notification ? constructNotificationList(notification) : ''}
+      {notification ? notification.map((o, i) => <NotificationCard key={i} {...o} />) : ''}
     </div>
     <div className="col-span-1 col-start-7 row-span-full row-start-1 m-2 border border-1 rounded-xl hidden 2xl:block">
       <div className="p-4">
         <h2 className="text-3xl text-center">Notifications</h2>
         <div className="border-b-1"></div>
-        {notification ? constructNotificationList(notification) : ''}
+        {notification ? notification.map((o, i) => <NotificationCard key={i} {...o} />) : ''}
       </div>
     </div>
   </>
