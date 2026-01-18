@@ -3,27 +3,42 @@ module NotificationRedis
 
   class << self
     def unseen_notifications(user_id = $current_user.id)
-      @redis.lrange("notifications:#{user_id}", 0, -1)
-        .map! { |n| JSON.parse(n) }
+      all_notifications = all_cached_notifications
+
+      unseen = all_notifications.select do |notification|
+        notification["seen_by_user"] == false
+      end
+
+      all_notifications.each do |n|
+        n["seen_by_user"] = true
+      end
+      @redis.set("notifications:#{user_id}", all_notifications.to_json)
+
+      unseen
     end
 
     def get_all_notifications(user_id = $current_user.id)
-      all_notifications = @redis.lrange("notifications:#{user_id}", 0, -1)
-      all_notifications.map! { |notification| JSON.parse(notification) }
+      all_notifications = all_cached_notifications
+
+      all_notifications.each do |n|
+        n["seen_by_user"] = true
+      end
+
+      @redis.set("notifications:#{user_id}", all_notifications.to_json)
+
+      all_notifications
     end
 
     def set_notification(user_id, notification)
-      @redis.lpush("notifications:#{user_id}", notification.to_json)
+      @redis.call("DEL", "notifications:#{user_id}")
+      @redis.set("notifications:#{user_id}", notification.to_json)
     end
 
-    def notifications_by_user(user_id)
-      @redis.llen("notifications:#{user_id}")
-    end
-
-    def trim_user_notifications_list(user_id, count)
-      nil unless count
-
-      @redis.rpop("notifications:#{user_id}", count)
+    private
+    def all_cached_notifications(user_id = $current_user.id)
+      notificationJson = @redis.get("notifications:#{user_id}")
+      return unless notificationJson
+      JSON.parse(notificationJson)
     end
   end
 end
