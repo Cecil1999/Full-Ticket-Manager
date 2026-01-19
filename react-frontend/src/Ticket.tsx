@@ -6,7 +6,7 @@ import type { Ticket } from './types/Ticket.ts'
 export function DisplayTicket() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [ticketData, setTicketData] = useState<Ticket>();
-  const ticket_id: Number = Number(useParams().ticket_id);
+  const ticket_id: number = Number(useParams().ticket_id);
 
   useEffect(() => {
     if (!ticket_id) {
