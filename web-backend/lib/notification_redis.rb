@@ -9,23 +9,14 @@ module NotificationRedis
         notification["seen_by_user"] == false
       end
 
-      all_notifications.each do |n|
-        n["seen_by_user"] = true
-      end
-      @redis.set("notifications:#{user_id}", all_notifications.to_json)
+      update_notifications_seen_by_user(all_notifications, user_id)
 
       unseen
     end
 
     def get_all_notifications(user_id = $current_user.id)
-      all_notifications = all_cached_notifications
-
-      all_notifications.each do |n|
-        n["seen_by_user"] = true
-      end
-
-      @redis.set("notifications:#{user_id}", all_notifications.to_json)
-
+      all_notifications = all_cached_notifications(user_id)
+      update_notifications_seen_by_user(all_notifications, user_id)
       all_notifications
     end
 
@@ -39,6 +30,16 @@ module NotificationRedis
       notificationJson = @redis.get("notifications:#{user_id}")
       return unless notificationJson
       JSON.parse(notificationJson)
+    end
+
+    def update_notifications_seen_by_user(all_notifications, user_id = $current_user.id)
+      all_notifications ||= all_cached_notifications
+
+      all_notifications.each do |n|
+        n["seen_by_user"] = true
+      end
+
+      @redis.set("notifications:#{user_id}", all_notifications.to_json)
     end
   end
 end

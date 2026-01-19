@@ -28,7 +28,6 @@ class Notification < ApplicationRecord
           notification
         end
 
-        # DB itself should never know that a user has seen a cached notification, as this would defeat the purpose of using it.
         combined_notifications = ((cache_ready_notifications || []) + (cached_notifications || []))
           .inject({}) { |hash, item| hash[item["id"]] = item; hash }.sort_by { |k, v| k }.to_h.values.reverse
 
