@@ -1,9 +1,10 @@
 module NotificationRedis
-  @redis = Redis.new(host: "127.0.0.1", port: 6379)
+  @redis = Redis.new(host: "0.0.0.0", port: 6379)
 
   class << self
     def unseen_notifications(user_id = $current_user.id)
       all_notifications = all_cached_notifications
+        return unless all_notifications
 
       unseen = all_notifications.select do |notification|
         notification["seen_by_user"] == false
@@ -16,6 +17,8 @@ module NotificationRedis
 
     def get_all_notifications(user_id = $current_user.id)
       all_notifications = all_cached_notifications(user_id)
+        return unless all_notifications
+
       update_notifications_seen_by_user(all_notifications, user_id)
       all_notifications
     end
@@ -27,8 +30,11 @@ module NotificationRedis
 
     private
     def all_cached_notifications(user_id = $current_user.id)
+      return unless @redis.exists?("notifications:#{user_id}")
+
       notificationJson = @redis.get("notifications:#{user_id}")
-      return unless notificationJson
+        return unless notificationJson
+
       JSON.parse(notificationJson)
     end
 
