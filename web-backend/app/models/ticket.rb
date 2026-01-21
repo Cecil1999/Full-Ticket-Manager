@@ -2,16 +2,18 @@ class Ticket < ApplicationRecord
     validates :title, presence: true
     validates :body, presence: true
     belongs_to :ticket_type
-    has_one :user
+    belongs_to :user
     has_many :posts
 
     def as_json(include_options = {}, other_options = {})
-      include_options = include_options.merge(
+      default_includes = {
         ticket_type: { only: :name }
-      )
+      }
+
+      merged_includes = default_includes.deep_merge(include_options)
 
       super(
-        include: include_options
+        include: merged_includes
       )
     end
 end

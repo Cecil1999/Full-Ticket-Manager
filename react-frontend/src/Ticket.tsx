@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { fetchApi } from './utils/fetchapi.ts';
 import type { Ticket } from './types/Ticket.ts'
+import { Post } from './Post.tsx';
 
 export function DisplayTicket() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -53,6 +54,7 @@ export function DisplayTicket() {
                   <span className="text-gray-700 text-xs" >{ticketData?.created_at}</span>
                 </div>
               </div>
+              {ticketData.posts?.map((o, i) => <Post key={i} body={o.body} user={o.user} />)}
             </div>
           )
         }

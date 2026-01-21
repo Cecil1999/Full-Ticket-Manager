@@ -5,7 +5,7 @@ import type { Role } from "./Role.ts"
 export type User = {
   id?: number,
   username: string,
-  email: string,
+  email?: string,
   teams?: Array<Team>,
   roles?: Array<Role>,
 }

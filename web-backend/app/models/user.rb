@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :team, optional: true
   has_many :notifications
   has_many :posts
+  has_many :tickets
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
 
