@@ -10,7 +10,7 @@ import { Profile } from "./Profile.tsx";
 
 function Layout() {
   return (
-    <div className="grid grid-cols-[auto] xl:grid-cols-[16rem_auto] grid-rows-[auto] h-screen" id="parent_grid">
+    <div className="grid grid-cols-[auto] xl:grid-cols-[16rem_auto] grid-rows-[auto] overflow-hidden h-full" id="parent_grid">
       <div className="col-start-1 xl:col-start-1">
         <Sidebar />
       </div>

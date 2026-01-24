@@ -9,7 +9,7 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
   end
 
   def show
-    render json: { r: @ticket.as_json({ posts: {} }) }
+    render json: { r: @ticket.as_json({ posts: { include: { user: { only: :username } }, only: :body } }) }
   end
 
   def update

@@ -1,10 +1,7 @@
+import type { Post } from "../types/Post.ts"
+
 export interface TicketType {
   name: string
-}
-
-export interface Post {
-  body: string,
-  poster?: string,
 }
 
 export interface Ticket {
