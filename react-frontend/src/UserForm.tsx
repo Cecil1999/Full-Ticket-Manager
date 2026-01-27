@@ -53,7 +53,7 @@ export default function UserForm({ user }: userFormProps) {
   }
 
   return <>
-    <form onSubmit={handleFormSubmit} className="p-2" method="POST">
+    <form onSubmit={handleFormSubmit} className="p-2">
       <div className="flex flex-col gap-4">
         <div className="flex-grow">
           <TextInput type="text" id="username" name="username" label="Username" value={user.username} readOnly />

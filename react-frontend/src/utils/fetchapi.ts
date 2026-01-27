@@ -41,11 +41,9 @@ export async function fetchApi(path: string, method: string) {
     return;
   }
 
-
   return fetch(`${path}`, {
     method: `${method}`,
     headers: {
-
       Authorization: `Bearer ${jwtToken}`,
     },
   }).then(Response => Response.json())
