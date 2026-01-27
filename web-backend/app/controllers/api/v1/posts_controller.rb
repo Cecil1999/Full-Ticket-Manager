@@ -26,7 +26,7 @@ class Api::V1::PostsController < Api::V1::ApplicationController
 
         notification.save!
       end
-      render json: { r: "Post Successfully Created." }
+      render json: { r: "Post Successfully Created.", username: $current_user.username }
     else
       render json: { e: @post.errors }, status: 422
     end

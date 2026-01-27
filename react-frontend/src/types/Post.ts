@@ -1,6 +1,6 @@
-import type { User } from "../types/User.ts"
+import type { User } from "./User";
 
 export interface Post {
   body: string,
-  user: User
+  user?: User,
 }
