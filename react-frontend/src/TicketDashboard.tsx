@@ -54,7 +54,9 @@ function TicketList() {
       });
   }, [])
   return <>
-    {isLoading ? (<div>is Loading...</div>) : (ticketData.map((o, i) => (<TicketItem key={i} id={o.id} label={o.ticket_type.name} title={o.title} body={o.body} />)))}
+    <div className="flex flex-col">
+      {isLoading ? (<div>is Loading...</div>) : (ticketData.map((o, i) => (<TicketItem key={i} id={o.id} label={o.ticket_type.name} title={o.title} body={o.body} />)))}
+    </div>
   </>
 }
 
@@ -77,7 +79,7 @@ export function TicketDashboard() {
         {ticket_id
           ? (
             <>
-              <button onClick={returnToTicketList} className="w-fit p-2 top-2.5 left-2.5 z-10 absolute border border-gray-400 bg-blue-600 text-white hover:text-black hover:bg-gray-200 rounded-2xl">Ticket List</button>
+              <button onClick={returnToTicketList} className="w-fit p-2 top-2.5 left-2.5 z-20 absolute border border-gray-400 bg-blue-600 text-white hover:text-black hover:bg-gray-200 rounded-2xl">Ticket List</button>
               <DisplayTicket />
             </>
           )
@@ -87,11 +89,13 @@ export function TicketDashboard() {
     </div>
 
     {/* Large TicketDashboard View */}
-    <div className="hidden xl:block xl:col-start-1 xl:col-span-2 xl:row-span-2 xl:ml-2 xl:mb-2 xl:border xl:border-l xl:rounded-xl overflow-y-auto">
-      <TicketList />
+    <div className="hidden xl:block xl:col-start-1 xl:col-span-2 xl:row-span-2 xl:ml-2 xl:mb-2 xl:border xl:border-l xl:rounded-xl h-[calc(100vh - 50px)] overflow-y-auto">
+      <div className="h-full overflow-y-auto">
+        <TicketList />
+      </div>
     </div>
-    <div className="hidden xl:block xl:col-start-3 xl:col-span-4 xl:row-span-2 xl:mb-2 xl:border xl:border-1 xl:rounded-xl overflow-y-auto">
-      <div>
+    <div className="hidden xl:block xl:col-start-3 xl:col-span-4 xl:row-span-2 xl:mb-2 xl:border xl:border-1 xl:rounded-xl h-[calc(100vh - 50px)]">
+      <div className="h-full">
         <DisplayTicket />
       </div>
     </div>
